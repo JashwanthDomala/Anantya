@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+<section class="login-section">
+    <div class="login-container">
+        <!-- Messages Section -->
+
+
+        <!-- Left Side: Image -->
+        <div class="login-image">
+            <img src="{% static 'styles/login.png' %}" alt="Login Image">
+        </div>
+
+        <!-- Right Side: Form -->
+        <div class="login-form">
+            <h2>Login</h2>
+            {% if message %}
+            <div class="messages">
+                  {{ message }}
+            </div>
+        {% endif %}
+
+
+            <form action="/login/" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div class="extra-links">
+                <a href="#">Forgot Password?</a>
+                <a href="{% url 'accounts:register' %}">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

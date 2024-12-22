@@ -1,0 +1,196 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block body %}
+
+<style>
+    /* General styling for the body */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Product Grid */
+    .dress-list-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 180px); /* Fixed item width */
+        gap: 3vh; /* Add consistent vertical and horizontal gap */
+        justify-content: start; /* Align items from the start */
+        align-items: start; /* Align items to the top */
+        max-width: 100%; /* Prevent excess gaps on larger screens */
+        margin: 0 auto; /* Center the container horizontally */
+        padding: 10px; /* Add padding for spacing */
+    }
+
+    /* Individual product card */
+    .dress-item {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        width: 180px; /* Fixed width */
+        height: 270px; /* Fixed height to prevent vertical expansion */
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+        overflow: hidden; /* Prevent content overflow */
+    }
+
+    .dress-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Image styling */
+    .dress-item img {
+        width: 100%;
+        height: 150px; /* Uniform height */
+        object-fit: contain; /* Prevent cropping */
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
+
+    /* Product info */
+    .dress-info {
+        text-align: center;
+    }
+
+    .name {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 4px;
+        color: #333;
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflowing text */
+        text-overflow: ellipsis; /* Add ellipsis for long names */
+    }
+
+    .price {
+        color: rgb(39, 38, 38);
+        font-size: 14px;
+        font-weight: italic;
+        margin-bottom: 5px;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    /* Buttons container inside each dress-item */
+    .dress-item .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 5px; /* Space between the buttons */
+        margin-top: auto; /* Push the buttons to the bottom of the card */
+    }
+
+    /* Individual button styling */
+    .dress-item button {
+        background-color: #8B4513;
+        color: white;
+        border: none;
+        padding: 6px;
+        font-size: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%; /* Full width of the card */
+    }
+
+    .dress-item button:hover {
+        background-color: #d48812;
+    }
+
+    /* Fixed "Add Dress" Button (Positioned at Bottom Right of the Screen) */
+    .add-dress-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color:  #8B4513;
+        color: white;
+        padding: 12px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .add-dress-button:hover {
+        background-color: #d48812;
+    }
+
+    /* Media Query for Mobile Screens */
+    @media (max-width: 768px) {
+        .dress-list-container {
+            grid-template-columns: repeat(auto-fit, 150px); /* Adjust item width for mobile */
+            gap: 2vh; /* Maintain consistent gap on mobile screens */
+        }
+
+        .dress-item {
+            width: 150px;
+            height: 230px; /* Adjust card height for smaller screens */
+        }
+
+        .dress-item img {
+            height: 120px; /* Smaller image height */
+        }
+
+        .name, .price {
+            font-size: 12px; /* Compact font size */
+        }
+
+        .dress-item button {
+            font-size: 11px;
+            padding: 5px;
+        }
+
+        /* Adjust Add Dress button on mobile screens */
+        .add-dress-button {
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 16px;
+        }
+    }
+</style>
+
+<!-- Update Section -->
+<div class="update-section">
+    <h1 style="font-family: 'Times New Roman', Times, serif; color:#8B4513; ">Update Dresses</h1>
+    
+    <!-- Dress List Container -->
+    <div class="dress-list-container">
+        {% for dress in dresses %}
+          <div class="dress-item">
+            <!-- Image -->
+             {% if dress.img %}
+            <img src="{{ dress.img.url }}" alt="{{ dress.name }}">
+            {% endif   %}
+            
+            <!-- Text Section (Name and Price) -->
+            <div class="dress-info">
+                <p><span class="label"></span> <span class="name">{{ dress.name }}</span></p>
+                <p><span class="label">Price:</span> <span class="price">{{ dress.price }}</span></p>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="buttons">
+                <a href="{% url 'base:update-dress' dress.id %}"><button>Update</button></a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Add Dress Button (Positioned at Bottom Right) -->
+<a href="{% url 'base:add-dress' %}">
+    <button class="add-dress-button">Add Dress</button>
+</a>
+
+{% endblock %}

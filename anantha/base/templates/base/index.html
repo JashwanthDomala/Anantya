@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h2 class="hero-heading" style="font-family: harrington;">Celebrate Tradition with Every Thread</h2>
+            <p class="hero-description">Discover the elegance of handcrafted attire, blending culture and style.</p>
+            <a href="{% url 'base:items' %}" class="btn">Shop Now</a>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'styles/cartoon.png' %}" alt="Traditional Clothing Cartoon" class="animated-image">
+        </div>
+    </div>
+</section>
+
+<br>
+<br>
+
+    
+<h2 style="font-family: rockwell;">Explore Our Collection</h2>
+<div class="category-grid" id="categories">
+    <a href="{% url 'base:items' %}?q=Sarees" class="category" style="text-decoration: none;" >
+        <img src="{% static 'styles/saree.png' %}" alt="Sarees">
+        <h3>Sarees</h3>
+        <p>Elegant Sarees for Every Occasion</p>
+    </a>
+    <a href="{% url 'base:items' %}?q=Kurtas" class="category" style="text-decoration: none;">
+        <img src="{% static 'styles/kurtha.png' %}" alt="Kurtas">
+        <h3>Kurtas</h3>
+        <p>Comfortable & Stylish Kurtas</p>
+    </a>
+    <a href="{% url 'base:items' %}?q=Lehengas" class="category" style="text-decoration: none;">
+        <img src="{% static 'styles/lehenga.png' %}" alt="Lehengas">
+        <h3>Lehengas</h3>
+        <p>Beautiful Lehengas for Celebrations</p>
+    </a>
+</div>
+
+
+
+
+    
+    
+    
+
+    <footer>
+        <p style="margin-left: 6px;">&copy; 2024 Anantya. All rights reserved.</p>
+    </footer>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load static %}
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{% url 'base:index' %}" class="logo">
+            <img src="{% static 'styles/logo.jpg' %}" alt="Logo" />
+        </a>
+        <h1 class="nav-title" style="font-family: 'Times New Roman', Times, serif;">ANANTYA</h1>
+        <ul class="nav-links">
+            <li><a href="#categories">Categories</a></li>
+            {% if user.is_authenticated and user.userprofile.post == "admin" %}
+            <li><a href="{% url 'base:update' %}">Update</a></li>
+            {% else %}
+                <li> <a href="{% url 'base:mycart' %}">Mycart</a></li>
+            {% endif %}
+            <li><a href="{% url 'base:contact' %}">Contact</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'accounts:login' %}">Login</a></li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>

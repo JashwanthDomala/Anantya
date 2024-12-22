@@ -1,0 +1,96 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+    /* Your custom styles for the checkout page */
+    .checkout-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-item-card {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-item-img {
+        width: 150px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .checkout-item-info {
+        font-size: 14px;
+        color: #555;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .checkout-button {
+        padding: 15px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #8B4513;
+        color: white;
+        width: 100%;
+        max-width: 300px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .checkout-button:hover {
+        background-color: #028543;
+    }
+</style>
+
+<div class="checkout-container">
+    <h2>Checkout</h2>
+
+    {% if cart %}
+        {% for item in cart.items.all %}
+            <div class="checkout-item-card">
+                {% if item.img %}
+                    <img src="{{ item.img.url }}" alt="{{ item.name }}" class="checkout-item-img">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+                <div class="checkout-item-info">
+                    <p><strong>{{ item.name }}</strong></p>
+                    <p><strong>Price:</strong> ₹{{ item.price }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- Checkout Form -->
+        <form method="POST">
+            {% csrf_token %}
+            <div class="checkout-form">
+                <label for="address">Shipping Address:</label>
+                <textarea id="address" name="address" rows="4" placeholder="Enter your shipping address"></textarea>
+            </div>
+
+            <button type="submit" class="checkout-button">Complete Checkout</button>
+        </form>
+    {% else %}
+        <p>Your cart is empty. Add items to your cart before proceeding.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

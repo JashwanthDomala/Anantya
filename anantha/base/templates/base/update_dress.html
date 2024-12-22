@@ -1,0 +1,212 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="update-dress-container">
+    <h1 class="heading" style="font-family: 'Times New Roman', Times, serif; color:#8B4513; "  >Update Dress Details</h1>
+
+    <!-- Dress Preview Section -->
+    <div class="dress-preview">
+        {% if dress.img %}
+            <img src="{{ dress.img.url }}" alt="{{ dress.name }}" class="dress-img">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <div class="dress-info">
+            <p><strong>Name:</strong> {{ dress.name }}</p>
+            <p><strong>Price:</strong> ₹{{ dress.price }}</p>
+            <p><strong>Description:</strong> {{ dress.ds }}</p>
+        </div>
+    </div>
+
+    <!-- Update Form Section -->
+    <form method="POST" enctype="multipart/form-data" class="update-form">
+        {% csrf_token %}
+        
+        <!-- Form Fields -->
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Name</label>
+            <input type="text" name="name" id="{{ form.name.id_for_label }}" value="{{ form.name.value }}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.price.id_for_label }}">Price</label>
+            <input type="number" name="price" id="{{ form.price.id_for_label }}" value="{{ form.price.value }}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.ds.id_for_label }}">Description</label>
+            <textarea name="ds" id="{{ form.ds.id_for_label }}" class="form-control">{{ form.ds.value }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.img.id_for_label }}">Image</label>
+            <input type="file" name="img" id="{{ form.img.id_for_label }}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.category.id_for_label }}">Category</label>
+            <select name="cat" id="{{ form.category.id_for_label }}" class="form-control">
+                {% for category in categories %}
+                    <option value="{{ category }}" {% if dress.cat == category %} selected {% endif %}>
+                        {{ category }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        
+
+        <!-- Buttons Section -->
+        <div class="button-group">
+            <button type="submit" name="update" class="btn btn-primary">Update</button>
+            <button type="submit" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this dress?');">Delete</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* General Styling for the Container */
+.update-dress-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.heading {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #444;
+    font-weight: 600;
+}
+
+/* Dress Preview Section */
+.dress-preview {
+    display: flex;
+    flex-direction: column;  /* Stack elements vertically */
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dress-img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.dress-info {
+    font-size: 14px;
+    color: #555;
+    width: 100%;
+    overflow-wrap: break-word;  /* Break long words to avoid overflow */
+    word-wrap: break-word;      /* For older browsers */
+    word-break: break-word;     /* Ensures words break correctly */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.dress-info p {
+    margin: 5px 0;
+}
+
+/* Form Fields Section */
+.update-form .form-group {
+    margin-bottom: 20px;
+}
+
+.update-form input,
+.update-form textarea,
+.update-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #fdfdfd;
+    transition: all 0.3s ease;
+}
+
+.update-form input:focus,
+.update-form textarea:focus,
+.update-form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.update-form .form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Buttons Section */
+.button-group {
+    display: flex;
+    justify-content: space-between;  /* Buttons side by side */
+    gap: 10px;
+}
+
+.button-group .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #8B4513;
+    color: white;
+    text-align: center;
+    width: 48%; /* Buttons will take up 48% width of the container */
+}
+
+.button-group .btn:hover {
+    background-color: #028543;
+}
+
+.btn-danger {
+    background-color: #8B4513;
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background-color: #b21f2d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dress-preview {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dress-img {
+        width: 100%;
+        height: auto;
+    }
+
+    .button-group {
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        gap: 15px;
+    }
+
+    .button-group .btn {
+        margin-bottom: 10px;  /* Add some margin for better spacing */
+        width: 100%;  /* Full width on mobile */
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+    /* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Register Section */
+.register-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full height of the viewport */
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+/* Register Container */
+.register-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Heading */
+.register-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Input Group */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #8B4513; /* Highlight color on focus */
+    outline: none;
+}
+
+/* Error Message */
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* Register Button */
+.register-btn {
+    background-color: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.register-btn:hover {
+    background-color: #d48812;
+    transform: translateY(-2px);
+}
+
+.register-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .register-container {
+        padding: 20px;
+    }
+
+    .register-container h2 {
+        font-size: 20px;
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .register-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+</style>
+    <section class="register-section">
+        <div class="register-container">
+            <h2>Register</h2>
+            <form action="{% url 'accounts:register' %}" method="POST">
+                {% csrf_token %}
+                {% if error %}
+                    <div class="error">{{ error }}</div>
+                {% endif %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="input-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
+                </div>
+                <div class="input-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+                </div>
+                <div class="input-group">
+                    <label for="password1">Password</label>
+                    <input type="password" id="password1" name="password1" placeholder="Enter your password" required>
+                </div>
+                <div class="input-group">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" id="password2" name="password2" placeholder="Confirm your password" required>
+                </div>
+                <div class="input-group">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" id="phone_number" name="phone_number" placeholder="Enter your phone number" required>
+                </div>
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+        </div>
+    </section>
+
+
+    {% endblock %}

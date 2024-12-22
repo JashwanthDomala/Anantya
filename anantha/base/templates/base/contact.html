@@ -1,0 +1,114 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    main {
+        flex: 1; /* Allows main content to expand and push the footer to the bottom */
+        display: flex;
+        justify-content: center; /* Centers the form horizontally */
+        align-items: center; /* Centers the form vertically */
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    .contact p {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input, textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    button {
+        padding: 10px;
+        background: #333;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    button:hover {
+        background: #555;
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px 0;
+        background: #333;
+        color: #fff;
+        margin-top: auto; /* Pushes the footer to the bottom */
+    }
+</style>
+
+<main>
+    <section class="contact">
+        <h1>Contact Us</h1>
+        <p>If you have any questions or feedback, feel free to reach out to us using the form below.</p>
+
+        <form action="/submit_contact" method="POST">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Your Website Name. All rights reserved.</p>
+</footer>
+
+{% endblock %}

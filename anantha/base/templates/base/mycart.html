@@ -1,0 +1,226 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+ /* General Styling for the Cart Container */
+.cart-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Grid layout for items */
+    gap: 30px;
+}
+
+.cart-item-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-item-img {
+    width: 100%;
+    height: 250px; /* Adjust height to ensure the full image is visible */
+    object-fit: contain; /* Ensure the image doesn't get cropped */
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.cart-item-info {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.cart-item-info p {
+    margin: 5px 0;
+}
+
+/* Remove and Checkout Button Styling */
+.cart-item-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Add space between buttons */
+    align-items: center; /* Align buttons horizontally */
+}
+
+.cart-item-buttons button {
+    padding: 8px 15px; /* Reduced padding for smaller buttons */
+    font-size: 14px; /* Slightly smaller font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1; /* Allow buttons to expand and take available space */
+    min-width: 180px; /* Reduced minimum width for smaller buttons */
+    text-align: center; /* Ensure the text is centered */
+    box-sizing: border-box; /* Include padding in button's width */
+}
+
+.remove-button {
+    background-color: #b21f2d;
+    color: white;
+}
+
+.remove-button:hover {
+    background-color: #9a1c23;
+}
+
+.checkout-button {
+    background-color: #028543;
+    color: white;
+}
+
+.checkout-button:hover {
+    background-color: #016c32;
+}
+
+/* Responsive Design for Buttons */
+@media (max-width: 768px) {
+    .cart-item-buttons {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        gap: 15px; /* Add space between buttons */
+    }
+
+    .cart-item-buttons button {
+        width: 100%; /* Make buttons full-width */
+        padding: 10px 0; /* Adjust padding for full-width buttons */
+        font-size: 16px; /* Slightly increase font size for readability on small screens */
+        border-radius: 6px; /* Slightly smaller border radius */
+    }
+
+    .cart-item-buttons button:hover {
+        opacity: 0.9; /* Slightly fade the button on hover */
+    }
+}
+
+
+
+
+/* Cart Summary Section */
+.cart-summary {
+    max-width: 300px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cart-summary p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cart-container {
+        grid-template-columns: 1fr; /* Stack items vertically on smaller screens */
+        gap: 20px;
+    }
+
+    .cart-item-buttons {
+        flex-direction: column;
+        gap: 15px; /* Space out buttons more on mobile */
+    }
+
+    .cart-item-buttons button {
+        margin-bottom: 10px; /* Add margin between buttons */
+    }
+}
+
+/* General Styling for the Empty Cart Message */
+.empty-cart-container {
+    text-align: center;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.empty-cart-container h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.empty-cart-container a {
+    padding: 12px 25px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #8B4513;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.empty-cart-container a:hover {
+    background-color: #028543;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .empty-cart-container {
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .empty-cart-container h1 {
+        font-size: 24px;
+    }
+
+    .empty-cart-container a {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+    }
+}
+
+</style>
+
+<div class="cart-container">
+    {% if cart.items.all  %}
+    {% for item in cart.items.all %}
+        <div class="cart-item-card">
+            {% if item.img %}
+                <img src="{{ item.img.url }}" alt="{{ item.name }}" class="cart-item-img">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+            <div class="cart-item-info">
+                <p><strong>{{ item.name }}</strong></p>
+                <p><strong>Price:</strong> ₹{{ item.price }}</p>
+            </div>
+            <div class="cart-item-buttons">
+                <form action="{% url 'base:remove_from_cart' item.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-button">Remove</button>
+                </form>
+                <form action="{% url 'base:checkout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="checkout-button">BuyNow</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+    <div class="empty-cart-container">
+        <h1>Cart is empty</h1>
+        <a href="{% url 'base:items' %}">View Dresses</a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

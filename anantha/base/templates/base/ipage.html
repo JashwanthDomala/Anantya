@@ -1,0 +1,129 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% block body %}
+
+<style>
+
+/* General Styling for the Container */
+.dress-preview {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Dress Preview Section */
+.dress-preview {
+    display: flex;
+    flex-direction: column;  /* Stack elements vertically */
+    align-items: center;
+    gap: 20px;  /* Adds space between the image/info and the buttons */
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dress-img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.dress-info {
+    font-size: 14px;
+    color: #555;
+    width: 100%;              /* Ensure the info section takes full width */
+    overflow-wrap: break-word; /* Break long words to avoid overflow */
+    word-wrap: break-word;     /* For older browsers */
+    word-break: break-word;    /* Ensures that words break correctly */
+    padding: 10px;             /* Adds space inside the description */
+    box-sizing: border-box;    /* Ensures padding is included in width */
+}
+
+.dress-info p {
+    margin: 5px 0;
+}
+
+/* Buttons Section - Stack the buttons vertically */
+.button-group {
+    display: flex;
+    flex-direction: column;  /* Stack the buttons vertically */
+    align-items: center;     /* Center the buttons */
+    gap: 10px;               /* Adds space between the buttons */
+    width: 100%;             /* Ensure buttons take full width */
+}
+
+.button-group button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #8B4513;
+    color: white;
+    width: 100%;  /* Make the buttons take full width on small screens */
+    max-width: 300px;  /* Limit the maximum width of the buttons on larger screens */
+}
+
+.button-group button:hover {
+    background-color: #028543;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dress-preview {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dress-img {
+        width: 100%;
+        height: auto;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 15px;  /* Space out the buttons a bit more on mobile */
+    }
+
+    .button-group button {
+        margin-bottom: 10px;  /* Add some margin for better spacing */
+    }
+}
+
+
+
+
+</style>
+<div class="dress-preview">
+    {% if dress.img %}
+        <img src="{{ dress.img.url }}" alt="{{ dress.name }}" class="dress-img">
+    {% else %}
+        <p>No image available</p>
+    {% endif %}
+    <div class="dress-info">
+        <p><strong>{{ dress.name }}</strong> </p>
+        <p><strong>Price:</strong> ₹{{ dress.price }}</p>
+        <p><strong>Description:</strong> {{ dress.ds }}</p>
+    </div>
+
+    <form method="POST" action="{% url 'base:ipage' dress.id %}">
+        {% csrf_token %}
+        <div class="button-group">
+            <button type="submit" name="Mycart">Add to Cart</button>
+            <button type="submit" name="Buy">Buy Now</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
